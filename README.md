@@ -10,22 +10,3 @@ I'd like to better understand how I spend my time on my devices, my discovery of
 ## Architecture
 
 A periodic polling-service gathers information from multiple sources & collates it in a SQLite database.
-
-## Sources
-
-### Github
-
-### Todoist
-
-### History Trends Unlimited
-
-## Keypresses
-
-## History
-
-## Youtube Music
-
-## Pinboard
-
-##
-# clockwork
