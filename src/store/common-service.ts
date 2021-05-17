@@ -1,4 +1,5 @@
 
+import signale from 'signale'
 import knex from 'knex'
 import * as path from 'path'
 import { fileURLToPath } from 'url'
@@ -61,18 +62,22 @@ export class CommonService {
   }
 
   async writeCode (opts: { time: number, project: string }) {
+    signale.info('write code')
     await this.db.insert({ time: opts.time, project: opts.project }).into('code')
   }
 
   async writeHistory (opts: { time: number }) {
+    signale.info('write history')
     await this.db.insert({ time: opts.time }).into('history')
   }
 
   async writeBookmark (opts: { time: number }) {
+    signale.info('write bookmark')
     await this.db.insert({ time: opts.time }).into('pinboard')
   }
 
   async writeWebVisit (opts: { time: number }) {
+    signale.info('write web-visit')
     await this.db.insert({ time: opts.time }).into('web')
   }
 

@@ -21,21 +21,18 @@ export class HistoryTrendsWatcher {
       })
 
       for (const row of data) {
-        console.log(row)
-        await this.$common.writeWebVisit({ time: row.visit_time })
+        await this.store(row.visit_time)
       }
 
       await this.$common.setLastUpdate('web', mostRecent)
-
-      console.log('set to max row')
     })
   }
 
   async stop () {
-
+    return this.$historyTrends.close()
   }
 
-  async store () {
-
+  async store (time: number) {
+    return this.$common.writeWebVisit({ time })
   }
 }
