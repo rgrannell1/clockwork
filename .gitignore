@@ -1,0 +1,5 @@
+dist/
+node_modules/
+src/config/default.ts
+yarn-error.log
+data/wyd.sqlite

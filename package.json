@@ -1,0 +1,23 @@
+{
+  "name": "clockwork",
+  "type": "module",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@octokit/core": "^3.4.0",
+    "@types/btoa": "^1.2.3",
+    "@types/node-fetch": "^2.5.10",
+    "btoa": "^1.2.1",
+    "chokidar": "^3.5.1",
+    "dotenv": "^9.0.2",
+    "github-api": "^3.4.0",
+    "knex": "^0.95.5",
+    "node-fetch": "^2.6.1",
+    "sqlite3": "^5.0.2",
+    "typescript": "^4.2.4"
+  },
+  "scripts": {
+    "tsc": "tsc"
+  }
+}
