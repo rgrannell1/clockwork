@@ -5,8 +5,8 @@ Monitor personal phone & desktop activity.
 
 ## Motivation
 
-I'd like to better understand how I spend my time on my devices, my discovery of music & interesting articles, and my todo-list completion.
+I'd like to track my digital activity as I believe it correlated with my mood, energy-levels, and may have interesting seasonal effects.
 
 ## Architecture
 
-A periodic polling-service gathers information from multiple sources & collates it in a SQLite database.
+A polling-service gathers information from multiple sources & collates it in a SQLite database.
