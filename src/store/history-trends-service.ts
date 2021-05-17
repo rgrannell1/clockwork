@@ -17,31 +17,17 @@ export class HistoryTrendsService {
     })
   }
 
-  async getLastRow () {
-    const [ result ] = await this.db('visits').count('* as count')
-    return result.count
+  async getRows (time: number) {
+    return this.db('visits').select('*').where('visit_time', '>', time)
   }
 
-  async getRows (count: number) {
-    const result = await this.db('visits').count('* as count')
-    const rowCount = result[0].count
-
-    const rows = await this.db('visits').select('*').offset(count)
-
-    return {
-      rows,
-      rowCount
-    }
-  }
-
-  async watch (watcher: any) {
-    let rowCount = await this.getLastRow()
-
+  async watch (lastTime: number, watcher: any) {
+    let timestamp = lastTime
     setInterval(async () => {
-      let data = await this.getRows(rowCount)
-      rowCount = data.rowCount
+      const rows = await this.getRows(timestamp)
+      await watcher(rows)
 
-      await watcher(data)
+      timestamp = Date.now()
     }, 5_000)
   }
 }

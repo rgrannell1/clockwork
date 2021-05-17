@@ -51,6 +51,13 @@ export class CommonService {
           table.string('project')
         })
     }
+
+    if (!await this.db.schema.hasTable('web')) {
+      await this.db.schema
+        .createTable('web', (table: any) => {
+          table.integer('time')
+        })
+    }
   }
 
   async writeCode (opts: { time: number, project: string }) {
@@ -65,11 +72,16 @@ export class CommonService {
     await this.db.insert({ time: opts.time }).into('pinboard')
   }
 
+  async writeWebVisit (opts: { time: number }) {
+    await this.db.insert({ time: opts.time }).into('web')
+  }
+
   async getLastUpdate (name: string) {
     return this.db.select().from('lastUpdate').where('name', name) ?? Date.now()
   }
 
   async setLastUpdate (name: string, time: number) {
+    await this.db('lastUpdate').where({name}).del()
     await this.db.insert({ name, time }).into('lastUpdate')
   }
 }

@@ -3,3 +3,6 @@ node_modules/
 src/config/default.ts
 yarn-error.log
 data/wyd.sqlite
+jupyter
+.ipynb_checkpoints
+jupyter/notebook.ipynb
