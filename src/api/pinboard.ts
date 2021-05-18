@@ -1,5 +1,6 @@
 
 import fetch from 'node-fetch'
+import signale from 'signale'
 
 export class PinboardWatcher {
   $service: any
@@ -15,6 +16,8 @@ export class PinboardWatcher {
     let state = (new Date(opts.time)).getTime()
 
     this.pid = setInterval(async () => {
+      signale.info('🕰 fetching pinboard bookmark status.')
+
       const response = await fetch(`https://api.pinboard.in/v1/posts/update?format=json&auth_token=${this.key}`)
       const content = await response.json()
 

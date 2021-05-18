@@ -10,21 +10,9 @@ export class HistoryTrendsWatcher {
     this.fpath = fpath
   }
 
-  start (opts: { time: number }) {
-    this.$historyTrends.watch(opts.time, async (data: any) => {
-      if (!data || data.length === 0) {
-        return
-      }
-
-      const mostRecent = data.reduce((left: any, right: any) => {
-        return Math.max(left, right.visit_time)
-      })
-
-      for (const row of data) {
-        await this.store(row.visit_time)
-      }
-
-      await this.$common.setLastUpdate('web', mostRecent)
+  start (opts: { maxId: number }) {
+    this.$historyTrends.watch(opts.maxId, async (row: any) => {
+      await this.store(row)
     })
   }
 
@@ -32,7 +20,7 @@ export class HistoryTrendsWatcher {
     return this.$historyTrends.close()
   }
 
-  async store (time: number) {
-    return this.$common.writeWebVisit({ time })
+  async store (opts: { time: number, visitId: number, domain: string }) {
+    return this.$common.writeWebVisit(opts)
   }
 }

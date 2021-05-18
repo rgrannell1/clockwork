@@ -1,4 +1,6 @@
 
+import * as fs from 'fs'
+import * as os from 'os'
 import signale from 'signale'
 import knex from 'knex'
 import * as path from 'path'
@@ -6,24 +8,48 @@ import { fileURLToPath } from 'url'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
+const stats = {
+  code: 0,
+  history: 0,
+  bookmark: 0,
+  web: 0
+}
+
 export class CommonService {
   db: any
+  stats = stats
 
   constructor (db: any) {
     this.db = db
   }
 
-  static connect () {
+  static async connect (home: string) {
+    const folder = path.join(home, 'clockwork')
+
+    try {
+      await fs.promises.access(folder, fs.constants.F_OK)
+    } catch (err) {
+      await fs.promises.mkdir(folder)
+    }
+
+    const db = path.join(folder, 'clockwork.sqlite')
+    signale.info(`🕰 connecting to ${db}...`)
+
     return knex({
       client: 'sqlite3',
       connection: {
-        filename: path.join(dirname, '../../data/wyd.sqlite')
-      }
+        filename: db
+      },
+      useNullAsDefault: true
     })
   }
 
   async up () {
+    signale.info('🕰 creating tables.')
+
     if (!await this.db.schema.hasTable('history')) {
+      signale.info(`creating history table`)
+
       await this.db.schema
         .createTable('history', (table: any) => {
           table.integer('time')
@@ -31,6 +57,8 @@ export class CommonService {
     }
 
     if (!await this.db.schema.hasTable('pinboard')) {
+      signale.info(`creating pinboard table`)
+
       await this.db.schema
         .createTable('pinboard', (table: any) => {
           table.integer('time')
@@ -38,6 +66,8 @@ export class CommonService {
     }
 
     if (!await this.db.schema.hasTable('lastUpdate')) {
+      signale.info(`creating lastUpdate table`)
+
       await this.db.schema
         .createTable('lastUpdate', (table: any) => {
           table.integer('time')
@@ -46,6 +76,8 @@ export class CommonService {
     }
 
     if (!await this.db.schema.hasTable('code')) {
+      signale.info(`creating code table`)
+
       await this.db.schema
         .createTable('code', (table: any) => {
           table.integer('time')
@@ -54,31 +86,43 @@ export class CommonService {
     }
 
     if (!await this.db.schema.hasTable('web')) {
+      signale.info(`creating web table`)
+
       await this.db.schema
         .createTable('web', (table: any) => {
           table.integer('time')
+          table.integer('visitId')
+          table.string('domain')
         })
     }
   }
 
+  async getMaxVisitId () {
+    const result = await this.db('web').max('visitId as max')
+    const [{ max }] = result
+
+    return max ?? 0
+  }
+
   async writeCode (opts: { time: number, project: string }) {
-    signale.info('write code')
     await this.db.insert({ time: opts.time, project: opts.project }).into('code')
+    stats.code++
   }
 
   async writeHistory (opts: { time: number }) {
-    signale.info('write history')
     await this.db.insert({ time: opts.time }).into('history')
+    stats.history++
   }
 
   async writeBookmark (opts: { time: number }) {
-    signale.info('write bookmark')
     await this.db.insert({ time: opts.time }).into('pinboard')
+    stats.bookmark++
   }
 
-  async writeWebVisit (opts: { time: number }) {
-    signale.info('write web-visit')
-    await this.db.insert({ time: opts.time }).into('web')
+  async writeWebVisit (opts: { time: number, visitId: number, domain: string }) {
+    await this.db('web').where('visitId', opts.visitId).del()
+    await this.db.insert(opts).into('web')
+    stats.web++
   }
 
   async getLastUpdate (name: string) {

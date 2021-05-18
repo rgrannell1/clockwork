@@ -1,17 +1,22 @@
 
 import * as fs from 'fs'
+import signale from 'signale'
 
 export class ShellHistoryWatcher {
   pid: any
   fd: any
   $service: any
+  fpath: string
 
-  constructor ($service: any) {
+  constructor ($service: any, fpath: string) {
     this.$service = $service
+    this.fpath = fpath
   }
 
   start () {
-    this.fd = fs.watch('/home/rg/.zsh_history', async (eventType: string) => {
+    signale.info(`🕰 watching ${this.fpath} for history`)
+
+    this.fd = fs.watch(this.fpath, async (eventType: string) => {
       await this.store({
         time: Date.now()
       })

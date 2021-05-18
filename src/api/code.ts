@@ -1,5 +1,6 @@
 
 import chokidar from 'chokidar'
+import signale from 'signale'
 
 export class CodeWatcher {
   fd: any
@@ -12,6 +13,8 @@ export class CodeWatcher {
   }
 
   start (opts: { time: number }) {
+    signale.info(`🕰 watching ${this.folder} for code-changes`)
+
     this.fd = chokidar.watch(this.folder, {
       ignored: /node_modules|dist|sqlite/,
       interval: 10_000,
