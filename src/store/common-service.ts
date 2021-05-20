@@ -1,6 +1,5 @@
 
 import * as fs from 'fs'
-import * as os from 'os'
 import signale from 'signale'
 import knex from 'knex'
 import * as path from 'path'
@@ -12,7 +11,9 @@ const stats = {
   code: 0,
   history: 0,
   bookmark: 0,
-  web: 0
+  web: 0,
+  steam: 0,
+  heartbeat: 0
 }
 
 export class CommonService {
@@ -81,6 +82,7 @@ export class CommonService {
       await this.db.schema
         .createTable('code', (table: any) => {
           table.integer('time')
+          table.string('file')
           table.string('project')
         })
     }
@@ -95,6 +97,25 @@ export class CommonService {
           table.string('domain')
         })
     }
+
+    if (!await this.db.schema.hasTable('steam')) {
+      signale.info(`creating steam table`)
+
+      await this.db.schema
+        .createTable('steam', (table: any) => {
+          table.integer('time')
+          table.string('game')
+        })
+    }
+
+    if (!await this.db.schema.hasTable('heartbeat')) {
+      signale.info(`creating heartbeat table`)
+
+      await this.db.schema
+        .createTable('heartbeat', (table: any) => {
+          table.integer('time')
+        })
+    }
   }
 
   async getMaxVisitId () {
@@ -104,8 +125,8 @@ export class CommonService {
     return max ?? 0
   }
 
-  async writeCode (opts: { time: number, project: string }) {
-    await this.db.insert({ time: opts.time, project: opts.project }).into('code')
+  async writeCode (opts: { time: number, file: string, project: string }) {
+    await this.db.insert(opts).into('code')
     stats.code++
   }
 
@@ -123,6 +144,16 @@ export class CommonService {
     await this.db('web').where('visitId', opts.visitId).del()
     await this.db.insert(opts).into('web')
     stats.web++
+  }
+
+  async writeSteamStatus (opts: { time: number, game: string }) {
+    await this.db.insert(opts).into('steam')
+    stats.steam++
+  }
+
+  async writeHeartbeatStatus (opts: { time: number }) {
+    await this.db.insert(opts).into('heartbeat')
+    stats.heartbeat++
   }
 
   async getLastUpdate (name: string) {

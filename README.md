@@ -5,7 +5,15 @@ Monitor personal phone & desktop activity.
 
 ## Motivation
 
-I'd like to track my digital activity as I believe it correlated with my mood, energy-levels, and may have interesting seasonal effects.
+I'd like to track my digital activity as I believe it correlated with my mood, energy-levels, and may have interesting seasonal effects. This is a descriptive rather than prescriptive tool.
+
+## Sources
+
+- Code-Folder
+- Chrome History (via extension)
+- Pinboard
+- Shell history
+- Steam
 
 ## Architecture
 

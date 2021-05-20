@@ -2,6 +2,8 @@
 import chokidar from 'chokidar'
 import signale from 'signale'
 
+import config from '../config/default.js'
+
 export class CodeWatcher {
   fd: any
   $service: any
@@ -16,13 +18,14 @@ export class CodeWatcher {
     signale.info(`🕰 watching ${this.folder} for code-changes`)
 
     this.fd = chokidar.watch(this.folder, {
-      ignored: /node_modules|dist|sqlite/,
+      ignored: config.app.ignoredCode,
       interval: 10_000,
       depth: 10
     }).on('all', async (event: any, file: string) => {
       if (event === 'change') {
         await this.store({
           time: Date.now(),
+          file,
           project: this.getProject(file)
         })
       }
@@ -33,7 +36,7 @@ export class CodeWatcher {
     this.fd.close()
   }
 
-  async store (opts: { time: number, project: string }) {
+  async store (opts: { time: number, file: string, project: string }) {
     await this.$service.writeCode(opts)
     await this.$service.setLastUpdate('code', opts.time)
   }
