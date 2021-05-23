@@ -14,7 +14,6 @@ export class TodoistWatcher {
 
   async start (opts: { time: number }) {
     this.pid = setInterval(async () => {
-      console.log(opts.time)
 
       const formattedDate = (new Date(opts.time)).toISOString()
       let offset = 0

@@ -17,7 +17,7 @@ import { TodoistWatcher } from '../api/todoist.js'
 
 const logActivity = ($service: CommonService) => {
   const message = [
-    `${$service.stats.code} code-changes`,
+    `🕰 ${$service.stats.code} code-changes`,
     `${$service.stats.history} shell-history-changes`,
     `${$service.stats.bookmark} bookmark updates`,
     `${ $service.stats.steam } game chunks`,
@@ -49,7 +49,7 @@ const main = async () => {
   heartbeatJob.start()
 
   todoistJob.start({
-    time: await $service.getLastUpdate('twitter', 1)
+    time: await $service.getLastUpdate('todoist', 1)
   })
 
   pinboardJob.start({
