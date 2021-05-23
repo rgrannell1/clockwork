@@ -1,12 +1,13 @@
 
 import fetch from 'node-fetch'
+import { CommonService } from '../store/common-service'
 
 export class SteamWatcher {
-  $service: any
+  $service: CommonService
   key: string
   steamId: string
 
-  constructor ($service: any, key: string, steamId: string) {
+  constructor ($service: CommonService, key: string, steamId: string) {
     this.$service = $service
     this.key = key
     this.steamId = steamId

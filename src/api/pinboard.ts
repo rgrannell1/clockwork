@@ -1,9 +1,10 @@
 
 import fetch from 'node-fetch'
 import signale from 'signale'
+import { CommonService } from '../store/common-service'
 
 export class PinboardWatcher {
-  $service: any
+  $service: CommonService
   pid: any
   key: string
 

@@ -3,10 +3,11 @@ import chokidar from 'chokidar'
 import signale from 'signale'
 
 import config from '../config/default.js'
+import { CommonService } from '../store/common-service.js'
 
 export class CodeWatcher {
   fd: any
-  $service: any
+  $service: CommonService
   folder: string
 
   constructor ($service: any, folder: string) {

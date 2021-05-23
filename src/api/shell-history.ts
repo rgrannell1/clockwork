@@ -1,14 +1,15 @@
 
 import * as fs from 'fs'
 import signale from 'signale'
+import { CommonService } from '../store/common-service'
 
 export class ShellHistoryWatcher {
   pid: any
   fd: any
-  $service: any
+  $service: CommonService
   fpath: string
 
-  constructor ($service: any, fpath: string) {
+  constructor ($service: CommonService, fpath: string) {
     this.$service = $service
     this.fpath = fpath
   }

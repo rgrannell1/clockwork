@@ -58,4 +58,8 @@ export class HistoryTrendsService {
 
     }, 5_000)
   }
+
+  async close () {
+
+  }
 }

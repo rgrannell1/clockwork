@@ -5,15 +5,15 @@ import knex from 'knex'
 import * as path from 'path'
 import { fileURLToPath } from 'url'
 
-const dirname = path.dirname(fileURLToPath(import.meta.url))
-
 const stats = {
   code: 0,
   history: 0,
   bookmark: 0,
   web: 0,
   steam: 0,
-  heartbeat: 0
+  heartbeat: 0,
+  twitter: 0,
+  todoist: 0
 }
 
 export class CommonService {
@@ -116,6 +116,26 @@ export class CommonService {
           table.integer('time')
         })
     }
+
+    if (!await this.db.schema.hasTable('twitter')) {
+      signale.info(`creating twitter table`)
+
+      await this.db.schema
+        .createTable('twitter', (table: any) => {
+          table.integer('time')
+        })
+    }
+
+    if (!await this.db.schema.hasTable('todoist')) {
+      signale.info(`creating todoist table`)
+
+      await this.db.schema
+        .createTable('todoist', (table: any) => {
+          table.integer('time')
+          table.string('project')
+          table.string('task')
+        })
+    }
   }
 
   async getMaxVisitId () {
@@ -156,8 +176,26 @@ export class CommonService {
     stats.heartbeat++
   }
 
-  async getLastUpdate (name: string) {
-    return this.db.select().from('lastUpdate').where('name', name) ?? Date.now()
+  async writeTweet (opts: { time: number }) {
+    await this.db.insert(opts).into('twitter')
+    stats.twitter++
+  }
+
+  async writeTodoistStatus (opts: { time: number }) {
+    await this.db.insert(opts).into('todoist')
+    stats.todoist++
+  }
+
+  async getLastUpdate (name: string, fallback?: number) {
+    const [match] = await this.db.select().from('lastUpdate').where('name', name)
+
+    if (!match && fallback) {
+      return fallback
+    } else if (!match) {
+      return Date.now()
+    }
+
+    return match.time
   }
 
   async setLastUpdate (name: string, time: number) {

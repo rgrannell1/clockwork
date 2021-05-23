@@ -1,8 +1,11 @@
 
+import { CommonService } from "../store/common-service"
+import { HistoryTrendsService } from "../store/history-trends-service"
+
 export class HistoryTrendsWatcher {
   fpath: string
-  $common: any
-  $historyTrends: any
+  $common: CommonService
+  $historyTrends: HistoryTrendsService
 
   constructor ($historyTrends: any, $common: any, fpath: string) {
     this.$historyTrends = $historyTrends
