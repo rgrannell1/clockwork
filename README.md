@@ -1,6 +1,8 @@
 
 # Clockwork 🕰
 
+<img src="example.png"/>
+
 Monitor personal phone & desktop activity.
 
 ## Motivation

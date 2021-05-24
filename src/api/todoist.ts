@@ -1,5 +1,6 @@
 
 import fetch from 'node-fetch'
+import signale from 'signale'
 import { CommonService } from '../store/common-service'
 
 export class TodoistWatcher {
@@ -15,10 +16,13 @@ export class TodoistWatcher {
   async start (opts: { time: number }) {
     this.pid = setInterval(async () => {
 
+      signale.info(`🕰 fetching todoist tasks.`)
+
       const formattedDate = (new Date(opts.time)).toISOString()
       let offset = 0
 
       let maxTime = opts.time
+
       while (true) {
         const res = await fetch(`https://api.todoist.com/sync/v8/completed/get_all?token=${this.key}&since=${formattedDate}&offset=${offset}&limit=100`)
 
