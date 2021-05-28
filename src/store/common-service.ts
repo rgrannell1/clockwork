@@ -190,8 +190,10 @@ export class CommonService {
     const [match] = await this.db.select().from('lastUpdate').where('name', name)
 
     if (!match && fallback) {
+      signale.debug(`🕰 no last update found for ${name}, returning fallback`)
       return fallback
     } else if (!match) {
+      signale.debug(`🕰 no last update found for ${name}, returning current date`)
       return Date.now()
     }
 

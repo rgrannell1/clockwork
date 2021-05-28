@@ -16,19 +16,20 @@ export class TodoistWatcher {
   async start (opts: { time: number }) {
     this.pid = setInterval(async () => {
 
-      signale.info(`🕰 fetching todoist tasks.`)
-
       const formattedDate = (new Date(opts.time)).toISOString()
+      signale.info(`🕰 fetching todoist tasks since ${formattedDate}`)
       let offset = 0
 
       let maxTime = opts.time
 
       while (true) {
+        // -- fetch all completed tasks since a set time. Offset varies with the loop.
         const res = await fetch(`https://api.todoist.com/sync/v8/completed/get_all?token=${this.key}&since=${formattedDate}&offset=${offset}&limit=100`)
 
         const json = await res.json()
         const { items, projects } = json
 
+        // -- save each item to the db
         for (const item of items) {
           const time = (new Date(item.completed_date)).getTime()
           const project = projects[item.project_id]?.name
