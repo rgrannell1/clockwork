@@ -48,9 +48,7 @@ const main = async () => {
   steamJob.start()
   heartbeatJob.start()
 
-  todoistJob.start({
-    time: await $service.getLastUpdate('todoist', 1)
-  })
+  todoistJob.start()
 
   pinboardJob.start({
     time: await $service.getLastUpdate('pinboard')

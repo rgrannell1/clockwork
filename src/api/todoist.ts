@@ -13,14 +13,15 @@ export class TodoistWatcher {
     this.key = key
   }
 
-  async start (opts: { time: number }) {
+  async start () {
     this.pid = setInterval(async () => {
+      const time = await this.$service.getLastUpdate('todoist', 1)
 
-      const formattedDate = (new Date(opts.time)).toISOString()
+      const formattedDate = (new Date(time)).toISOString()
       signale.info(`🕰 fetching todoist tasks since ${formattedDate}`)
       let offset = 0
 
-      let maxTime = opts.time
+      let maxTime = time
 
       while (true) {
         // -- fetch all completed tasks since a set time. Offset varies with the loop.
@@ -36,6 +37,7 @@ export class TodoistWatcher {
           const task = item.content
 
           maxTime = Math.max(maxTime, time)
+          await this.$service.setLastUpdate('todoist', maxTime)
 
           await this.store({ time, task, project })
         }
@@ -45,8 +47,6 @@ export class TodoistWatcher {
           break
         }
       }
-
-      await this.$service.setLastUpdate('todoist', maxTime)
     }, 300_000)
   }
 
