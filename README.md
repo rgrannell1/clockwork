@@ -3,7 +3,7 @@
 
 <img src="example.png"/>
 
-Monitor personal phone & desktop activity.
+Monitor digital activity
 
 ## Motivation
 
@@ -16,6 +16,8 @@ I'd like to track my digital activity as I believe it correlated with my mood, e
 - Pinboard
 - Shell history
 - Steam
+- Todoist
+- Twitter
 
 ## Architecture
 
