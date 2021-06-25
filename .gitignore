@@ -6,3 +6,4 @@ data/wyd.sqlite
 jupyter
 .ipynb_checkpoints
 jupyter/notebook.ipynb
+_site

@@ -4,7 +4,7 @@ Wants=clockwork.timer
 
 [Service]
 Type=simple
-ExecStart=node /home/rg/Code/clockwork/dist/app/entry.js
+ExecStart=node /home/rg/Code/clockwork/dist/src/app/entry.js
 Restart=on-failure
 RestartSec=30
 

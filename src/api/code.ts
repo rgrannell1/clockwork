@@ -9,6 +9,10 @@ export class CodeWatcher {
   fd: any
   $service: CommonService
   folder: string
+  flushPid: NodeJS.Timeout | undefined
+  buffer: Array<{ time: number, file: string, project: string }> = []
+
+  BATCH_UPDATE_THRESHOLD = 100
 
   constructor ($service: any, folder: string) {
     this.$service = $service
@@ -23,14 +27,35 @@ export class CodeWatcher {
       interval: 10_000,
       depth: 10
     }).on('all', async (event: any, file: string) => {
+      // -- avoid "bulk" refactors and touch invokations here.
       if (event === 'change') {
-        await this.store({
-          time: Date.now(),
-          file,
-          project: this.getProject(file)
-        })
+
+       if (!this.flushPid) {
+         this.flushPid = setTimeout(async () => {
+          await this.flush()
+          this.flushPid = undefined
+        }, 10_000)
+       }
+
+       this.buffer.push({
+         time: Date.now(),
+         file,
+         project: this.getProject(file)
+       })
       }
     })
+  }
+
+  async flush () {
+    if (this.buffer.length > this.BATCH_UPDATE_THRESHOLD) {
+      this.buffer = []
+    }
+
+    for (const update of this.buffer) {
+      await this.store(update)
+    }
+
+    this.buffer = []
   }
 
   async stop () {
@@ -43,6 +68,7 @@ export class CodeWatcher {
   }
 
   getProject (fpath: string) {
-    return fpath.replace(this.folder, '').split('/')[1]
+    const parts = fpath.replace(this.folder, '').split('/')
+    return parts[1]
   }
 }

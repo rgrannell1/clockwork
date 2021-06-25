@@ -47,7 +47,7 @@ const main = async () => {
   shellJob.start()
   steamJob.start()
   heartbeatJob.start()
-
+  twitterJob.start()
   todoistJob.start()
 
   pinboardJob.start({
@@ -57,10 +57,6 @@ const main = async () => {
   codeJob.start({
     time: await $service.getLastUpdate('code')
   })
-
-//  twitterJob.start({
-//    time: await $service.getLastUpdate('twitter', 1)
-//  })
 
   const $historyTrends = new HistoryTrendsService(config.app.chromeDb)
   const chromeHistoryJob = new HistoryTrendsWatcher($historyTrends, $service, config.app.chromeDb)

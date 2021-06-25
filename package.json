@@ -24,6 +24,6 @@
   },
   "scripts": {
     "tsc": "tsc",
-    "start": "npm run tsc && node dist/app/entry.js"
+    "start": "npm run tsc && node dist/src/app/entry.js"
   }
 }

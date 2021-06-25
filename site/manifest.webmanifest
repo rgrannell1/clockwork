@@ -1,0 +1,11 @@
+{
+  "name": "clockwork.rgrannell.xyz",
+  "short_name": "clockwork.rgrannell.xyz",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#007bff",
+  "background_color": "#ffffff",
+  "icons": [
+
+  ]
+}

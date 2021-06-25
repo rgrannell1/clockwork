@@ -1,0 +1,317 @@
+---
+title: clockwork.rgrannell.xyz
+permalink: "index.html"
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Description" content="Show productibity information">
+
+    <link rel="manifest" href="/manifest.webmanifest">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#007bff">
+    <link rel="shortcut icon" type="image/png" href="/images/favicon-32x32.png"/>
+
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="/css/marx.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+  </head>
+  <nav>
+    <ul>
+      <li><a href="/">🕛</a></li>
+    </ul>
+  </nav>
+  <body>
+    <main>
+      <h1>Clockwork</h1>
+
+      <p>Clockwork measures what I'm doing with my time.</p>
+
+      <h2>Coding</h2>
+
+      <p>Coding activity over time</p>
+
+      <div id="coding-all-time"></div>
+
+      <p>Coding activity by project</p>
+
+      <div id="coding-by-project"></div>
+
+      <h2>Shell History</h2>
+
+      <p>Shell-history by time</p>
+
+      <div id="shell-history-all-time"></div>
+
+      <h2>Todoist</h2>
+
+      <p>Todoist completed tasks all time</p>
+
+      <div id="todoist-all-time"></div>
+
+      <p>Todoist completed tasks by project</p>
+
+      <div id="todoist-by-project"></div>
+
+      <p>Todoist completed tasks this year</p>
+
+      <div id="todoist-this-year"></div>
+
+      <p>Todoist completed tasks this month</p>
+
+      <div id="todoist-this-month"></div>
+
+      <h2>Gaming</h2>
+
+      <p>Games play all time</p>
+
+      <div id="gaming-all-time"></div>
+
+    </main>
+  </body>
+  <footer>
+  </footer>
+</html>
+
+<script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+<script>
+const data = {{ index }}
+
+const codingAllTime = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  height: 300,
+  width: 500,
+  data: {
+    values: data.codingAllTime
+  },
+  mark: 'bar',
+  encoding: {
+    x: {
+      field: 'day',
+      timeUnit: 'yearmonthdate',
+      title: 'Date'
+    },
+    y: {
+      field: 'updates',
+      type: 'quantitative'
+    },
+    color: {
+      field: 'project',
+      scale: {scheme: 'category20c'}
+    },
+    tooltip: [
+      {field: 'updates', type: 'quantitative'},
+      {field: 'project', type: 'nominal'}
+    ]
+  }
+}
+
+const codingByProject = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  height: 300,
+  width: 500,
+  data: {
+    values: data.codingAllTime
+  },
+  mark: 'bar',
+  encoding: {
+    x: {
+      field: 'project'
+    },
+    y: {
+      field: 'updates',
+      type: 'quantitative'
+    },
+    color: {
+      field: 'project',
+      scale: {scheme: 'category20c'}
+    },
+    tooltip: [
+      {field: 'updates', type: 'quantitative'},
+      {field: 'project', type: 'nominal'}
+    ]
+  }
+}
+
+const shellHistoryAllTime = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  height: 300,
+  width: 500,
+  data: {
+    values: data.shellHistoryAllTime
+  },
+  mark: 'bar',
+  encoding: {
+    x: {
+      field: 'day',
+      timeUnit: 'yearmonthdate',
+      title: 'Date'
+    },
+    y: {
+      field: 'updates',
+      type: 'quantitative'
+    },
+    tooltip: [
+      {field: 'updates', type: 'quantitative'}
+    ]
+  }
+}
+
+const todoistAllTime = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  height: 300,
+  width: 500,
+  data: {
+    values: data.todoistAllTime
+  },
+  mark: 'bar',
+  encoding: {
+    x: {
+      field: 'day',
+      timeUnit: 'yearmonth',
+      title: 'Date'
+    },
+    y: {
+      field: 'updates',
+      type: 'quantitative'
+    },
+    color: {
+      field: 'project',
+      scale: {scheme: 'category20c'}
+    },
+    tooltip: [
+      {field: 'updates', type: 'quantitative'},
+      {field: 'project', type: 'nominal'}
+    ]
+  }
+}
+
+const todoistByProject = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  height: 300,
+  width: 500,
+  data: {
+    values: data.todoistByProject
+  },
+  mark: 'bar',
+  encoding: {
+    x: {
+      field: 'project'
+    },
+    y: {
+      field: 'updates',
+      type: 'quantitative'
+    },
+    color: {
+      field: 'project',
+      scale: {scheme: 'category20c'}
+    },
+    tooltip: [
+      {field: 'updates', type: 'quantitative'},
+      {field: 'project', type: 'nominal'}
+    ]
+  }
+}
+
+const todoistThisYear = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  height: 300,
+  width: 500,
+  data: {
+    values: data.todoistThisYear
+  },
+  mark: 'bar',
+  encoding: {
+    x: {
+      field: 'day',
+      timeUnit: 'yearmonth',
+      title: 'Date'
+    },
+    y: {
+      field: 'updates',
+      type: 'quantitative'
+    },
+    color: {
+      field: 'project',
+      scale: {scheme: 'category20c'}
+    },
+    tooltip: [
+      {field: 'updates', type: 'quantitative'},
+      {field: 'project', type: 'nominal'}
+    ]
+  }
+}
+
+const todoistThisMonth = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  height: 300,
+  width: 500,
+  data: {
+    values: data.todoistThisMonth
+  },
+  mark: 'bar',
+  encoding: {
+    x: {
+      field: 'day',
+      timeUnit: 'yearmonth',
+      title: 'Date'
+    },
+    y: {
+      field: 'updates',
+      type: 'quantitative'
+    },
+    color: {
+      field: 'project',
+      scale: {scheme: 'category20c'}
+    },
+    tooltip: [
+      {field: 'updates', type: 'quantitative'},
+      {field: 'project', type: 'nominal'}
+    ]
+  }
+}
+
+const gamingAllTime = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  height: 300,
+  width: 500,
+  data: {
+    values: data.gamingAllTime
+  },
+  mark: 'bar',
+  encoding: {
+    x: {
+      field: 'day',
+      timeUnit: 'yearmonthdate',
+      title: 'Date'
+    },
+    y: {
+      field: 'updates',
+      type: 'quantitative'
+    },
+    color: {
+      field: 'game',
+      scale: {scheme: 'category20c'}
+    },
+    tooltip: [
+      {field: 'updates', type: 'quantitative'},
+      {field: 'game', type: 'nominal'}
+    ]
+  }
+}
+
+vegaEmbed('#coding-all-time', codingAllTime)
+vegaEmbed('#coding-by-project', codingByProject)
+vegaEmbed('#shell-history-all-time', shellHistoryAllTime)
+vegaEmbed('#todoist-all-time', todoistAllTime)
+vegaEmbed('#todoist-by-project', todoistByProject)
+vegaEmbed('#todoist-this-year', todoistThisYear)
+vegaEmbed('#todoist-this-month', todoistThisMonth)
+vegaEmbed('#gaming-all-time', gamingAllTime)
+
+</script>
