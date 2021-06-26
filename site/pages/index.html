@@ -10,7 +10,7 @@ permalink: "index.html"
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="Description" content="Show productibity information">
 
-    <link rel="manifest" href="/manifest.webmanifest">
+    <link rel="manifest" href="/manifest.webmanifest" crossorigin="use-credentials">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#007bff">
     <link rel="shortcut icon" type="image/png" href="/icons/favicon-32x32.png"/>
@@ -314,4 +314,12 @@ vegaEmbed('#todoist-this-year', todoistThisYear)
 vegaEmbed('#todoist-this-month', todoistThisMonth)
 vegaEmbed('#gaming-all-time', gamingAllTime)
 
+</script>
+<script>
+if('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js')
+  console.log('loaded /sw.js')
+} else {
+  console.error('failed to load /sw.js')
+}
 </script>
