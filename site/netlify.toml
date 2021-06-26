@@ -1,0 +1,6 @@
+[build]
+  publish = "_site"
+  command = "eleventy"
+
+[dev]
+  port=8100

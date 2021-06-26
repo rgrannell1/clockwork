@@ -7,3 +7,4 @@ jupyter
 .ipynb_checkpoints
 jupyter/notebook.ipynb
 _site
+site/.netlify/state.json
