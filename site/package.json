@@ -9,6 +9,10 @@
   "scripts": {
     "build": "eleventy",
     "start": "eleventy --serve",
-    "deploy": "yarn build && npx netlify-cli deploy --prod"
+    "deploy": "yarn build && npx netlify-cli deploy --prod",
+    "dev": "yarn build && npx netlify-cli dev"
+  },
+  "devDependencies": {
+    "netlify-cli": "^4.0.5"
   }
 }

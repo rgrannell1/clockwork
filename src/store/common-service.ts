@@ -13,7 +13,8 @@ const stats = {
   steam: 0,
   heartbeat: 0,
   twitter: 0,
-  todoist: 0
+  todoist: 0,
+  notes: 0
 }
 
 export class CommonService {
@@ -87,6 +88,15 @@ export class CommonService {
         })
     }
 
+    if (!await this.db.schema.hasTable('notes')) {
+      signale.info(`creating notes table`)
+
+      await this.db.schema
+        .createTable('notes', (table: any) => {
+          table.integer('time')
+        })
+    }
+
     if (!await this.db.schema.hasTable('web')) {
       signale.info(`creating web table`)
 
@@ -148,6 +158,11 @@ export class CommonService {
   async writeCode (opts: { time: number, file: string, project: string }) {
     await this.db.insert(opts).into('code')
     stats.code++
+  }
+
+  async writeNotes (opts: { time: number}) {
+    await this.db.insert(opts).into('notes')
+    stats.notes++
   }
 
   async writeHistory (opts: { time: number }) {

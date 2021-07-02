@@ -14,7 +14,14 @@ import { HistoryTrendsService } from '../store/history-trends-service.js'
 import { HeartbeatWatcher } from '../api/heartbeat.js'
 import { TwitterWatcher } from '../api/twitter.js'
 import { TodoistWatcher } from '../api/todoist.js'
+import { NotesWatcher } from '../api/notes.js'
 
+/**
+ * Log the number of updates made in total.
+ *
+ * @param $service the common-service
+ *
+ */
 const logActivity = ($service: CommonService) => {
   const message = [
     `🕰 ${$service.stats.code} code-changes`,
@@ -24,21 +31,26 @@ const logActivity = ($service: CommonService) => {
     `${$service.stats.heartbeat} heartbeats`,
     `${$service.stats.twitter} tweets`,
     `${$service.stats.todoist} todos done`,
-
+    `${$service.stats.notes} notes updated`
   ].join(' | ')
 
   signale.info(message)
 }
 
+/**
+ * The main application.
+ */
 const main = async () => {
   signale.info('🕰 starting clockwork')
 
   const $service = new CommonService(await CommonService.connect(config.app.home))
   await $service.up()
 
+  // -- instantiate and start each job
   const shellJob = new ShellHistoryWatcher($service, config.app.shellHistory)
   const pinboardJob = new PinboardWatcher($service, config.pinboard.key)
   const codeJob = new CodeWatcher($service, config.app.codeFolder)
+  const noteJob = new NotesWatcher($service, config.app.noteFolder)
   const steamJob = new SteamWatcher($service, config.steam.key, config.steam.steamId)
   const heartbeatJob = new HeartbeatWatcher($service)
   const twitterJob = new TwitterWatcher($service, config.twitter.id, config.twitter.token)
@@ -56,6 +68,9 @@ const main = async () => {
 
   codeJob.start({
     time: await $service.getLastUpdate('code')
+  })
+  noteJob.start({
+    time: await $service.getLastUpdate('notes')
   })
 
   const $historyTrends = new HistoryTrendsService(config.app.chromeDb)

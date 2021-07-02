@@ -107,6 +107,19 @@ const gamingAllTime = async conn => {
   })
 }
 
+const notesAllTime = async conn => {
+  return new Promise((resolve, reject) => {
+    const query = `SELECT count(*) as updates, strftime("%Y-%m-%d", time / 1000, 'unixepoch') as day
+    from notes
+    group by day
+    `
+
+    conn.all(query, (err, rows) => {
+      err ? reject(err) : resolve(rows)
+    })
+  })
+}
+
 module.exports = async () => {
   const conn = db('/home/rg/clockwork/clockwork.sqlite')
 
@@ -119,6 +132,7 @@ module.exports = async () => {
     todoistThisYear: await todoistThisYear(conn),
     todoistThisMonth: await todoistThisMonth(conn),
     gamingAllTime: await gamingAllTime(conn),
+    notesAllTime: await notesAllTime(conn),
   }
 
   return data

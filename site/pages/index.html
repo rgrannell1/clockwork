@@ -64,6 +64,12 @@ permalink: "index.html"
 
       <div id="todoist-this-month"></div>
 
+      <h2>Notes</h2>
+
+      <p>Notes taken over time</p>
+
+      <div id="notes-all-time"></div>
+
       <h2>Gaming</h2>
 
       <p>Games play all time</p>
@@ -295,12 +301,36 @@ const gamingAllTime = {
       type: 'quantitative'
     },
     color: {
-      field: 'game',
+      field: 'notes',
       scale: {scheme: 'category20c'}
     },
     tooltip: [
       {field: 'updates', type: 'quantitative'},
-      {field: 'game', type: 'nominal'}
+      {field: 'notes', type: 'nominal'}
+    ]
+  }
+}
+
+const notesAllTime = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  height: 300,
+  width: 500,
+  data: {
+    values: data.notesAllTime
+  },
+  mark: 'bar',
+  encoding: {
+    x: {
+      field: 'day',
+      timeUnit: 'yearmonthdate',
+      title: 'Date'
+    },
+    y: {
+      field: 'updates',
+      type: 'quantitative'
+    },
+    tooltip: [
+      {field: 'updates', type: 'quantitative'}
     ]
   }
 }
@@ -313,6 +343,7 @@ vegaEmbed('#todoist-by-project', todoistByProject)
 vegaEmbed('#todoist-this-year', todoistThisYear)
 vegaEmbed('#todoist-this-month', todoistThisMonth)
 vegaEmbed('#gaming-all-time', gamingAllTime)
+vegaEmbed('#notes-all-time', notesAllTime)
 
 </script>
 <script>
