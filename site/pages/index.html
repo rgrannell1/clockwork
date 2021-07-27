@@ -88,6 +88,25 @@ permalink: "index.html"
 <script>
 const data = {{ index }}
 
+
+const ritalinMarker = {
+  data: {
+    values: [
+      { day: '2021-07-15' }
+    ]
+  },
+  mark: {
+    type: 'rule',
+    color: 'red'
+  },
+  encoding: {
+    x: {
+      field: 'day',
+      timeUnit: 'yearmonthdate'
+    }
+  }
+}
+
 const codingAllTime = {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   height: 300,
@@ -95,26 +114,31 @@ const codingAllTime = {
   data: {
     values: data.codingAllTime
   },
-  mark: 'bar',
-  encoding: {
-    x: {
-      field: 'day',
-      timeUnit: 'yearmonthdate',
-      title: 'Date'
-    },
-    y: {
-      field: 'updates',
-      type: 'quantitative'
-    },
-    color: {
-      field: 'project',
-      scale: {scheme: 'category20c'}
-    },
-    tooltip: [
-      {field: 'updates', type: 'quantitative'},
-      {field: 'project', type: 'nominal'}
-    ]
-  }
+  layer: [
+    ritalinMarker,
+    {
+      mark: 'bar',
+      encoding: {
+        x: {
+          field: 'day',
+          timeUnit: 'yearmonthdate',
+          title: 'Date'
+        },
+        y: {
+          field: 'updates',
+          type: 'quantitative'
+        },
+        color: {
+          field: 'project',
+          scale: {scheme: 'category20c'}
+        },
+        tooltip: [
+          {field: 'updates', type: 'quantitative'},
+          {field: 'project', type: 'nominal'}
+        ]
+      }
+    }
+  ]
 }
 
 const codingByProject = {
@@ -124,24 +148,28 @@ const codingByProject = {
   data: {
     values: data.codingAllTime
   },
-  mark: 'bar',
-  encoding: {
-    x: {
-      field: 'project'
-    },
-    y: {
-      field: 'updates',
-      type: 'quantitative'
-    },
-    color: {
-      field: 'project',
-      scale: {scheme: 'category20c'}
-    },
-    tooltip: [
-      {field: 'updates', type: 'quantitative'},
-      {field: 'project', type: 'nominal'}
-    ]
-  }
+  layer: [
+    {
+      mark: 'bar',
+      encoding: {
+        x: {
+          field: 'project'
+        },
+        y: {
+          field: 'updates',
+          type: 'quantitative'
+        },
+        color: {
+          field: 'project',
+          scale: {scheme: 'category20c'}
+        },
+        tooltip: [
+          {field: 'updates', type: 'quantitative'},
+          {field: 'project', type: 'nominal'}
+        ]
+      }
+    }
+  ]
 }
 
 const shellHistoryAllTime = {
@@ -151,21 +179,26 @@ const shellHistoryAllTime = {
   data: {
     values: data.shellHistoryAllTime
   },
-  mark: 'bar',
-  encoding: {
-    x: {
-      field: 'day',
-      timeUnit: 'yearmonthdate',
-      title: 'Date'
-    },
-    y: {
-      field: 'updates',
-      type: 'quantitative'
-    },
-    tooltip: [
-      {field: 'updates', type: 'quantitative'}
-    ]
-  }
+  layer: [
+    ritalinMarker,
+    {
+      mark: 'bar',
+      encoding: {
+        x: {
+          field: 'day',
+          timeUnit: 'yearmonthdate',
+          title: 'Date'
+        },
+        y: {
+          field: 'updates',
+          type: 'quantitative'
+        },
+        tooltip: [
+          {field: 'updates', type: 'quantitative'}
+        ]
+      }
+    }
+  ]
 }
 
 const todoistAllTime = {
@@ -175,26 +208,31 @@ const todoistAllTime = {
   data: {
     values: data.todoistAllTime
   },
-  mark: 'bar',
-  encoding: {
-    x: {
-      field: 'day',
-      timeUnit: 'yearmonth',
-      title: 'Date'
-    },
-    y: {
-      field: 'updates',
-      type: 'quantitative'
-    },
-    color: {
-      field: 'project',
-      scale: {scheme: 'category20c'}
-    },
-    tooltip: [
-      {field: 'updates', type: 'quantitative'},
-      {field: 'project', type: 'nominal'}
-    ]
-  }
+  layer: [
+    ritalinMarker,
+    {
+      mark: 'bar',
+      encoding: {
+        x: {
+          field: 'day',
+          timeUnit: 'yearmonth',
+          title: 'Date'
+        },
+        y: {
+          field: 'updates',
+          type: 'quantitative'
+        },
+        color: {
+          field: 'project',
+          scale: {scheme: 'category20c'}
+        },
+        tooltip: [
+          {field: 'updates', type: 'quantitative'},
+          {field: 'project', type: 'nominal'}
+        ]
+      }
+    }
+  ]
 }
 
 const todoistByProject = {
@@ -204,24 +242,28 @@ const todoistByProject = {
   data: {
     values: data.todoistByProject
   },
-  mark: 'bar',
-  encoding: {
-    x: {
-      field: 'project'
-    },
-    y: {
-      field: 'updates',
-      type: 'quantitative'
-    },
-    color: {
-      field: 'project',
-      scale: {scheme: 'category20c'}
-    },
-    tooltip: [
-      {field: 'updates', type: 'quantitative'},
-      {field: 'project', type: 'nominal'}
-    ]
-  }
+  layer: [
+    {
+      mark: 'bar',
+      encoding: {
+        x: {
+          field: 'project'
+        },
+        y: {
+          field: 'updates',
+          type: 'quantitative'
+        },
+        color: {
+          field: 'project',
+          scale: {scheme: 'category20c'}
+        },
+        tooltip: [
+          {field: 'updates', type: 'quantitative'},
+          {field: 'project', type: 'nominal'}
+        ]
+      }
+    }
+  ]
 }
 
 const todoistThisYear = {
@@ -231,26 +273,31 @@ const todoistThisYear = {
   data: {
     values: data.todoistThisYear
   },
-  mark: 'bar',
-  encoding: {
-    x: {
-      field: 'day',
-      timeUnit: 'yearmonth',
-      title: 'Date'
-    },
-    y: {
-      field: 'updates',
-      type: 'quantitative'
-    },
-    color: {
-      field: 'project',
-      scale: {scheme: 'category20c'}
-    },
-    tooltip: [
-      {field: 'updates', type: 'quantitative'},
-      {field: 'project', type: 'nominal'}
-    ]
-  }
+  layer: [
+    ritalinMarker,
+    {
+      mark: 'bar',
+      encoding: {
+        x: {
+          field: 'day',
+          timeUnit: 'yearmonth',
+          title: 'Date'
+        },
+        y: {
+          field: 'updates',
+          type: 'quantitative'
+        },
+        color: {
+          field: 'project',
+          scale: {scheme: 'category20c'}
+        },
+        tooltip: [
+          {field: 'updates', type: 'quantitative'},
+          {field: 'project', type: 'nominal'}
+        ]
+      }
+    }
+  ]
 }
 
 const todoistThisMonth = {
@@ -260,26 +307,31 @@ const todoistThisMonth = {
   data: {
     values: data.todoistThisMonth
   },
-  mark: 'bar',
-  encoding: {
-    x: {
-      field: 'day',
-      timeUnit: 'yearmonth',
-      title: 'Date'
-    },
-    y: {
-      field: 'updates',
-      type: 'quantitative'
-    },
-    color: {
-      field: 'project',
-      scale: {scheme: 'category20c'}
-    },
-    tooltip: [
-      {field: 'updates', type: 'quantitative'},
-      {field: 'project', type: 'nominal'}
-    ]
-  }
+  layer: [
+    ritalinMarker,
+    {
+      mark: 'bar',
+      encoding: {
+        x: {
+          field: 'day',
+          timeUnit: 'yearmonth',
+          title: 'Date'
+        },
+        y: {
+          field: 'updates',
+          type: 'quantitative'
+        },
+        color: {
+          field: 'project',
+          scale: {scheme: 'category20c'}
+        },
+        tooltip: [
+          {field: 'updates', type: 'quantitative'},
+          {field: 'project', type: 'nominal'}
+        ]
+      }
+    }
+  ]
 }
 
 const gamingAllTime = {
@@ -289,27 +341,33 @@ const gamingAllTime = {
   data: {
     values: data.gamingAllTime
   },
-  mark: 'bar',
-  encoding: {
-    x: {
-      field: 'day',
-      timeUnit: 'yearmonthdate',
-      title: 'Date'
-    },
-    y: {
-      field: 'updates',
-      type: 'quantitative'
-    },
-    color: {
-      field: 'notes',
-      scale: {scheme: 'category20c'}
-    },
-    tooltip: [
-      {field: 'updates', type: 'quantitative'},
-      {field: 'notes', type: 'nominal'}
-    ]
-  }
+  layer: [
+    ritalinMarker,
+    {
+      mark: 'bar',
+      encoding: {
+        x: {
+          field: 'day',
+          timeUnit: 'yearmonthdate',
+          title: 'Date'
+        },
+        y: {
+          field: 'updates',
+          type: 'quantitative'
+        },
+        color: {
+          field: 'notes',
+          scale: {scheme: 'category20c'}
+        },
+        tooltip: [
+          {field: 'updates', type: 'quantitative'},
+          {field: 'game', type: 'nominal'}
+        ]
+      }
+    }
+  ]
 }
+
 
 const notesAllTime = {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
@@ -318,21 +376,26 @@ const notesAllTime = {
   data: {
     values: data.notesAllTime
   },
-  mark: 'bar',
-  encoding: {
-    x: {
-      field: 'day',
-      timeUnit: 'yearmonthdate',
-      title: 'Date'
-    },
-    y: {
-      field: 'updates',
-      type: 'quantitative'
-    },
-    tooltip: [
-      {field: 'updates', type: 'quantitative'}
-    ]
-  }
+  layer: [
+    ritalinMarker,
+    {
+      mark: 'bar',
+      encoding: {
+        x: {
+          field: 'day',
+          timeUnit: 'yearmonthdate',
+          title: 'Date'
+        },
+        y: {
+          field: 'updates',
+          type: 'quantitative'
+        },
+        tooltip: [
+          {field: 'updates', type: 'quantitative'}
+        ]
+      }
+    }
+  ]
 }
 
 vegaEmbed('#coding-all-time', codingAllTime)
