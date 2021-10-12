@@ -36,6 +36,10 @@ permalink: "index.html"
 
       <div id="coding-all-time"></div>
 
+      <p>Coding by week</p>
+
+      <div id="coding-by-week"></div>
+
       <p>Coding activity by project</p>
 
       <div id="coding-by-project"></div>
@@ -69,6 +73,7 @@ permalink: "index.html"
       <p>Notes taken over time</p>
 
       <div id="notes-all-time"></div>
+      <div id="notes-cumulative"></div>
 
       <h2>Gaming</h2>
 
@@ -122,6 +127,40 @@ const codingAllTime = {
         x: {
           field: 'day',
           timeUnit: 'yearmonthdate',
+          title: 'Date'
+        },
+        y: {
+          field: 'updates',
+          type: 'quantitative'
+        },
+        color: {
+          field: 'project',
+          scale: {scheme: 'category20c'}
+        },
+        tooltip: [
+          {field: 'updates', type: 'quantitative'},
+          {field: 'project', type: 'nominal'}
+        ]
+      }
+    }
+  ]
+}
+
+const codingByWeek = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  height: 300,
+  width: 500,
+  data: {
+    values: data.codingByWeek
+  },
+  layer: [
+    ritalinMarker,
+    {
+      mark: 'bar',
+      encoding: {
+        x: {
+          field: 'week',
+          type: 'quantitative',
           title: 'Date'
         },
         y: {
@@ -401,6 +440,7 @@ const notesAllTime = {
 }
 
 vegaEmbed('#coding-all-time', codingAllTime)
+vegaEmbed('#coding-by-week', codingByWeek)
 vegaEmbed('#coding-by-project', codingByProject)
 vegaEmbed('#shell-history-all-time', shellHistoryAllTime)
 vegaEmbed('#todoist-all-time', todoistAllTime)
