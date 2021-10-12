@@ -19,6 +19,19 @@ const codingAllTime = async conn => {
   })
 }
 
+const codingByWeek = async conn => {
+  return new Promise((resolve, reject) => {
+    const query = `SELECT project, count(project) as updates, strftime("%W", time / 1000, 'unixepoch') as week, strftime("%Y", time / 1000, 'unixepoch') as year
+      from code
+      where code.project IS NOT NULL and year is strftime('%Y', date('now'))
+      group by project, week`
+
+      conn.all(query, (err, rows) => {
+      err ? reject(err) : resolve(rows)
+    })
+  })
+}
+
 const codingByProject = async conn => {
   return new Promise((resolve, reject) => {
     const query = `SELECT project, count(project) as updates
@@ -125,6 +138,7 @@ module.exports = async () => {
 
   const data = {
     codingAllTime: await codingAllTime(conn),
+    codingByWeek: await codingByWeek(conn),
     codingByProject: await codingByProject(conn),
     shellHistoryAllTime: await shellHistoryAllTime(conn),
     todoistAllTime: await todoistAllTime(conn),
@@ -132,7 +146,7 @@ module.exports = async () => {
     todoistThisYear: await todoistThisYear(conn),
     todoistThisMonth: await todoistThisMonth(conn),
     gamingAllTime: await gamingAllTime(conn),
-    notesAllTime: await notesAllTime(conn),
+    notesAllTime: await notesAllTime(conn)
   }
 
   return data
