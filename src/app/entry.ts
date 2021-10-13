@@ -15,6 +15,7 @@ import { HeartbeatWatcher } from '../api/heartbeat.js'
 import { TwitterWatcher } from '../api/twitter.js'
 import { TodoistWatcher } from '../api/todoist.js'
 import { NotesWatcher } from '../api/notes.js'
+import { ObsidianStatsWatcher } from '../api/obsidian-stats.js'
 
 /**
  * Log the number of updates made in total.
@@ -55,12 +56,14 @@ const main = async () => {
   const heartbeatJob = new HeartbeatWatcher($service)
   const twitterJob = new TwitterWatcher($service, config.twitter.id, config.twitter.token)
   const todoistJob = new TodoistWatcher($service, config.todoist.token)
+  const obsidianStatsJob = new ObsidianStatsWatcher($service, config.app.noteFolder)
 
   shellJob.start()
   steamJob.start()
   heartbeatJob.start()
   twitterJob.start()
   todoistJob.start()
+  obsidianStatsJob.start()
 
   pinboardJob.start({
     time: await $service.getLastUpdate('pinboard')

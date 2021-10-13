@@ -14,7 +14,8 @@ const stats = {
   heartbeat: 0,
   twitter: 0,
   todoist: 0,
-  notes: 0
+  notes: 0,
+  obsidianStats: 0
 }
 
 export class CommonService {
@@ -146,6 +147,16 @@ export class CommonService {
           table.string('task')
         })
     }
+
+    if (!await this.db.schema.hasTable('obsidian_stats')) {
+      signale.info(`creating obsidian_stats table`)
+
+      await this.db.schema
+        .createTable('obsidian_stats', (table: any) => {
+          table.integer('fileCount')
+          table.integer('time')
+        })
+    }
   }
 
   async getMaxVisitId () {
@@ -213,6 +224,11 @@ export class CommonService {
     }
 
     return match.time
+  }
+
+  async writeObsidianStats (opts: {fileCount: number, time: number}) {
+   await this.db.insert(opts).into('obsidian_stats')
+   stats.obsidianStats++
   }
 
   async setLastUpdate (name: string, time: number) {
