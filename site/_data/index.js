@@ -133,6 +133,19 @@ const notesAllTime = async conn => {
   })
 }
 
+const topicsAllTime = async conn => {
+  return new Promise((resolve, reject) => {
+    const query = `SELECT fileCount, strftime("%Y-%m-%d", time / 1000, 'unixepoch') as day
+    from obsidian_stats
+    group by day
+    `
+
+    conn.all(query, (err, rows) => {
+      err ? reject(err) : resolve(rows)
+    })
+  })
+}
+
 module.exports = async () => {
   const conn = db('/home/rg/clockwork/clockwork.sqlite')
 
@@ -146,7 +159,8 @@ module.exports = async () => {
     todoistThisYear: await todoistThisYear(conn),
     todoistThisMonth: await todoistThisMonth(conn),
     gamingAllTime: await gamingAllTime(conn),
-    notesAllTime: await notesAllTime(conn)
+    notesAllTime: await notesAllTime(conn),
+    topicsAllTime: await topicsAllTime(conn)
   }
 
   return data

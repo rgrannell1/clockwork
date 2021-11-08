@@ -73,7 +73,10 @@ permalink: "index.html"
       <p>Notes taken over time</p>
 
       <div id="notes-all-time"></div>
-      <div id="notes-cumulative"></div>
+
+      <p>#Note files over time</p>
+
+      <div id="topics-all-time"></div>
 
       <h2>Gaming</h2>
 
@@ -439,6 +442,35 @@ const notesAllTime = {
   ]
 }
 
+const topicsAllTime = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  height: 300,
+  width: 500,
+  data: {
+    values: data.topicsAllTime
+  },
+  layer: [
+    {
+      mark: 'line',
+      encoding: {
+        x: {
+          field: 'day',
+          timeUnit: 'yearmonthdate',
+          title: 'Date'
+        },
+        y: {
+          field: 'fileCount',
+          type: 'quantitative'
+        },
+        tooltip: [
+          {field: 'updates', type: 'quantitative'}
+        ]
+      }
+    }
+  ]
+}
+
+
 vegaEmbed('#coding-all-time', codingAllTime)
 vegaEmbed('#coding-by-week', codingByWeek)
 vegaEmbed('#coding-by-project', codingByProject)
@@ -449,6 +481,7 @@ vegaEmbed('#todoist-this-year', todoistThisYear)
 vegaEmbed('#todoist-this-month', todoistThisMonth)
 vegaEmbed('#gaming-all-time', gamingAllTime)
 vegaEmbed('#notes-all-time', notesAllTime)
+vegaEmbed('#topics-all-time', topicsAllTime)
 
 </script>
 <script>
